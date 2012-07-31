@@ -1,5 +1,5 @@
 /*
-°´¹Ø¼ü×ÖµÄË³Ğò±éÀúB-Ê÷:
+æŒ‰å…³é”®å­—çš„é¡ºåºéå†B-æ ‘:
 (3, 11)
 (7, 16)
 (12, 4)
@@ -16,11 +16,11 @@
 (90, 8)
 (100, 9)
  
-ÇëÊäÈë´ı²éÕÒ¼ÇÂ¼µÄ¹Ø¼ü×Ö: 26
+è¯·è¾“å…¥å¾…æŸ¥æ‰¾è®°å½•çš„å…³é”®å­—: 26
 (26, 13)
  
 5
-Ã»ÕÒµ½
+æ²¡æ‰¾åˆ°
  
 37
 (37, 5)
@@ -33,56 +33,56 @@
 #include<cmath>
 using namespace std;
  
-#define m 3  // BÊ÷µÄ½×£¬ÔİÉèÎª3
-//3½×µÄB-ÊıÉÏËùÓĞ·ÇÖÕµã½áµãÖÁ¶à¿ÉÒÔÓĞÁ½¸ö¹Ø¼ü×Ö
-#define N 16 // Êı¾İÔªËØ¸öÊı
-#define MAX 5 // ×Ö·û´®×î´ó³¤¶È + 1  
+#define m 3  // Bæ ‘çš„é˜¶ï¼Œæš‚è®¾ä¸º3
+//3é˜¶çš„B-æ•°ä¸Šæ‰€æœ‰éç»ˆç‚¹ç»“ç‚¹è‡³å¤šå¯ä»¥æœ‰ä¸¤ä¸ªå…³é”®å­—
+#define N 16 // æ•°æ®å…ƒç´ ä¸ªæ•°
+#define MAX 5 // å­—ç¬¦ä¸²æœ€å¤§é•¿åº¦ + 1  
  
-//¼ÇÂ¼ÀàĞÍ
+//è®°å½•ç±»å‹
 struct Record{
-    int key; // ¹Ø¼ü×Ö
+    int key; // å…³é”®å­—
     char info[MAX];
 };  
  
-//B-Ê÷ADT
+//B-æ ‘ADT
 struct BTreeNode {
-    int keynum; // ½áµãÖĞ¹Ø¼ü×Ö¸öÊı
-    struct BTreeNode * parent; // Ö¸ÏòË«Ç×½áµã
-    struct Node { // ½áµãÀàĞÍ
-        int key; // ¹Ø¼ü×Ö
-        Record * recptr; // ¼ÇÂ¼Ö¸Õë
-        struct BTreeNode * ptr; // ×ÓÊ÷Ö¸Õë
-    }node[m + 1]; // key, recptrµÄ0ºÅµ¥ÔªÎ´ÓÃ
+    int keynum; // ç»“ç‚¹ä¸­å…³é”®å­—ä¸ªæ•°
+    struct BTreeNode * parent; // æŒ‡å‘åŒäº²ç»“ç‚¹
+    struct Node { // ç»“ç‚¹ç±»å‹
+        int key; // å…³é”®å­—
+        Record * recptr; // è®°å½•æŒ‡é’ˆ
+        struct BTreeNode * ptr; // å­æ ‘æŒ‡é’ˆ
+    }node[m + 1]; // key, recptrçš„0å·å•å…ƒæœªç”¨
 }; 
  
 typedef BTreeNode BT;
 typedef BTreeNode * Position;
 typedef BTreeNode * SearchTree;
  
-//B-Ê÷²éÕÒ½á¹ûµÄÀàĞÍ
+//B-æ ‘æŸ¥æ‰¾ç»“æœçš„ç±»å‹
 typedef struct {
-    Position pt; // Ö¸ÏòÕÒµ½µÄ½áµã
-    int i; // 1..m£¬ÔÚ½áµãÖĞµÄ¹Ø¼ü×ÖĞòºÅ
-    int tag; // 1:²éÕÒ³É¹¦£¬O:²éÕÒÊ§°Ü
+    Position pt; // æŒ‡å‘æ‰¾åˆ°çš„ç»“ç‚¹
+    int i; // 1..mï¼Œåœ¨ç»“ç‚¹ä¸­çš„å…³é”®å­—åºå·
+    int tag; // 1:æŸ¥æ‰¾æˆåŠŸï¼ŒO:æŸ¥æ‰¾å¤±è´¥
 }Result; 
  
-inline void print(BT c, int i) {// TraverseSearchTree()µ÷ÓÃµÄº¯Êı
+inline void print(BT c, int i) {// TraverseSearchTree()è°ƒç”¨çš„å‡½æ•°
     printf("(%d, %s)\n", c.node[i].key, c.node[i].recptr->info);
 }
  
-//Ïú»Ù²éÕÒÊ÷
+//é”€æ¯æŸ¥æ‰¾æ ‘
 void DestroySearchTree(SearchTree tree) {
-    if(tree) {// ·Ç¿ÕÊ÷
+    if(tree) {// éç©ºæ ‘
         for(int i = 0; i <= (tree)->keynum; i++ ) {
-            DestroySearchTree(tree->node[i].ptr); // ÒÀ´ÎÏú»ÙµÚi¿Ã×ÓÊ÷
+            DestroySearchTree(tree->node[i].ptr); // ä¾æ¬¡é”€æ¯ç¬¬iæ£µå­æ ‘
         }
-        free(tree); // ÊÍ·Å¸ù½áµã
-        tree = NULL; // ¿ÕÖ¸Õë¸³0
+        free(tree); // é‡Šæ”¾æ ¹ç»“ç‚¹
+        tree = NULL; // ç©ºæŒ‡é’ˆèµ‹0
     }
 }
  
-//ÔÚp->node[1..keynum].keyÖĞ²éÕÒi, Ê¹µÃp->node[i].key¡ÜK£¼p->node[i + 1].key
-//·µ»Ø¸ÕºÃĞ¡ÓÚµÈÓÚKµÄÎ»ÖÃ
+//åœ¨p->node[1..keynum].keyä¸­æŸ¥æ‰¾i, ä½¿å¾—p->node[i].keyâ‰¤Kï¼œp->node[i + 1].key
+//è¿”å›åˆšå¥½å°äºç­‰äºKçš„ä½ç½®
 int Search(Position p, int K) {
     int location = 0;
     for(int i = 1; i <= p->keynum; i++ ) {
@@ -94,18 +94,18 @@ int Search(Position p, int K) {
 }
  
 /*
-ÔÚm½×BÊ÷treeÉÏ²éÕÒ¹Ø¼ü×ÖK£¬·µ»Ø½á¹û(pt, i, tag)¡£
-Èô²éÕÒ³É¹¦£¬tag = 1£¬Ö¸ÕëptËùÖ¸½áµãÖĞµÚi¸ö¹Ø¼ü×ÖµÈÓÚK£»
-Èô²éÕÒÊ§°Ü£¬tag = 0£¬µÈÓÚKµÄ¹Ø¼ü×ÖÓ¦²åÈëÔÚÖ¸ÕëPtËùÖ¸½áµãÖĞµÚiºÍµÚi + 1¸ö¹Ø¼ü×ÖÖ®¼ä¡£
+åœ¨mé˜¶Bæ ‘treeä¸ŠæŸ¥æ‰¾å…³é”®å­—Kï¼Œè¿”å›ç»“æœ(pt, i, tag)ã€‚
+è‹¥æŸ¥æ‰¾æˆåŠŸï¼Œtag = 1ï¼ŒæŒ‡é’ˆptæ‰€æŒ‡ç»“ç‚¹ä¸­ç¬¬iä¸ªå…³é”®å­—ç­‰äºKï¼›
+è‹¥æŸ¥æ‰¾å¤±è´¥ï¼Œtag = 0ï¼Œç­‰äºKçš„å…³é”®å­—åº”æ’å…¥åœ¨æŒ‡é’ˆPtæ‰€æŒ‡ç»“ç‚¹ä¸­ç¬¬iå’Œç¬¬i + 1ä¸ªå…³é”®å­—ä¹‹é—´ã€‚
 */
 Result SearchPosition(SearchTree tree, int K) {
-    Position p = tree, q = NULL; // ³õÊ¼»¯£¬pÖ¸Ïò´ı²é½áµã£¬qÖ¸ÏòpµÄË«Ç×
+    Position p = tree, q = NULL; // åˆå§‹åŒ–ï¼ŒpæŒ‡å‘å¾…æŸ¥ç»“ç‚¹ï¼ŒqæŒ‡å‘pçš„åŒäº²
     bool found = false;
     int i = 0;
     Result r;
     while(p && !found) {
-        i = Search(p, K); // p->node[i].key¡ÜK<p->node[i + 1].key
-        if(i > 0 && p->node[i].key == K) {// ÕÒµ½´ı²é¹Ø¼ü×Ö
+        i = Search(p, K); // p->node[i].keyâ‰¤K<p->node[i + 1].key
+        if(i > 0 && p->node[i].key == K) {// æ‰¾åˆ°å¾…æŸ¥å…³é”®å­—
             found = true;
         } else {
             q = p;
@@ -113,19 +113,19 @@ Result SearchPosition(SearchTree tree, int K) {
         }
     }
     r.i = i;
-    if(found) {// ²éÕÒ³É¹¦
+    if(found) {// æŸ¥æ‰¾æˆåŠŸ
         r.pt = p;
         r.tag = 1;
-    } else {//  ²éÕÒ²»³É¹¦£¬·µ»ØKµÄ²åÈëÎ»ÖÃĞÅÏ¢
+    } else {//  æŸ¥æ‰¾ä¸æˆåŠŸï¼Œè¿”å›Kçš„æ’å…¥ä½ç½®ä¿¡æ¯
         r.pt = q;
         r.tag = 0;
     }
     return r;
 }
  
-//½«r->key¡¢rºÍap·Ö±ğ²åÈëµ½q->key[i + 1]¡¢q->recptr[i + 1]ºÍq->ptr[i + 1]ÖĞ
+//å°†r->keyã€rå’Œapåˆ†åˆ«æ’å…¥åˆ°q->key[i + 1]ã€q->recptr[i + 1]å’Œq->ptr[i + 1]ä¸­
 void Insert(Position q, int i, Record * r, Position ap) {
-    for(int j = q->keynum; j > i; j--) {// ¿Õ³öq->node[i + 1]
+    for(int j = q->keynum; j > i; j--) {// ç©ºå‡ºq->node[i + 1]
         q->node[j + 1] = q->node[j];
     }
     q->node[i + 1].key = r->key;
@@ -134,11 +134,11 @@ void Insert(Position q, int i, Record * r, Position ap) {
     q->keynum++;
 }
  
-// ½«½áµãq·ÖÁÑ³ÉÁ½¸ö½áµã£¬Ç°Ò»°ë±£Áô£¬ºóÒ»°ëÒÆÈëĞÂÉú½áµãap
+// å°†ç»“ç‚¹qåˆ†è£‚æˆä¸¤ä¸ªç»“ç‚¹ï¼Œå‰ä¸€åŠä¿ç•™ï¼Œåä¸€åŠç§»å…¥æ–°ç”Ÿç»“ç‚¹ap
 void split(Position &q, Position &ap) {
     int s = (m + 1) / 2;
-    ap = (Position)malloc(sizeof(BT)); // Éú³ÉĞÂ½áµãap
-    ap->node[0].ptr = q->node[s].ptr; // ºóÒ»°ëÒÆÈëap
+    ap = (Position)malloc(sizeof(BT)); // ç”Ÿæˆæ–°ç»“ç‚¹ap
+    ap->node[0].ptr = q->node[s].ptr; // åä¸€åŠç§»å…¥ap
     for(int i = s + 1; i <= m; i++ ) {
         ap->node[i-s] = q->node[i];
         if(ap->node[i - s].ptr) {
@@ -147,10 +147,10 @@ void split(Position &q, Position &ap) {
     }
     ap->keynum = m - s;
     ap->parent = q->parent;
-    q->keynum = s - 1; // qµÄÇ°Ò»°ë±£Áô£¬ĞŞ¸Äkeynum
+    q->keynum = s - 1; // qçš„å‰ä¸€åŠä¿ç•™ï¼Œä¿®æ”¹keynum
 }
  
-// Éú³Éº¬ĞÅÏ¢(T, r, ap)µÄĞÂµÄ¸ù½áµã*T£¬Ô­TºÍapÎª×ÓÊ÷Ö¸Õë
+// ç”Ÿæˆå«ä¿¡æ¯(T, r, ap)çš„æ–°çš„æ ¹ç»“ç‚¹*Tï¼ŒåŸTå’Œapä¸ºå­æ ‘æŒ‡é’ˆ
 void NewRoot(Position &tree, Record *r, Position ap) {
     Position p;
     p = (Position)malloc(sizeof(BT));
@@ -170,8 +170,8 @@ void NewRoot(Position &tree, Record *r, Position ap) {
 }
  
 /*
-ÔÚm½×B-Ê÷treeÉÏ½áµã*qµÄkey[i]Óëkey[i + 1]Ö®¼ä²åÈë¹Ø¼ü×ÖKµÄÖ¸Õër¡£ÈôÒıÆğ
-½áµã¹ı´ó, ÔòÑØË«Ç×Á´½øĞĞ±ØÒªµÄ½áµã·ÖÁÑµ÷Õû, Ê¹treeÈÔÊÇm½×BÊ÷¡£
+åœ¨mé˜¶B-æ ‘treeä¸Šç»“ç‚¹*qçš„key[i]ä¸key[i + 1]ä¹‹é—´æ’å…¥å…³é”®å­—Kçš„æŒ‡é’ˆrã€‚è‹¥å¼•èµ·
+ç»“ç‚¹è¿‡å¤§, åˆ™æ²¿åŒäº²é“¾è¿›è¡Œå¿…è¦çš„ç»“ç‚¹åˆ†è£‚è°ƒæ•´, ä½¿treeä»æ˜¯mé˜¶Bæ ‘ã€‚
 */
 void InsertPosition(SearchTree &tree, Record &r, Position q, int i) {
     Position ap = NULL;
@@ -179,37 +179,37 @@ void InsertPosition(SearchTree &tree, Record &r, Position q, int i) {
     Record *rx = &r;
  
     while(q && !finished) {
-        // ½«r->key¡¢rºÍap·Ö±ğ²åÈëµ½q->key[i + 1]¡¢q->recptr[i + 1]ºÍq->ptr[i + 1]ÖĞ
+        // å°†r->keyã€rå’Œapåˆ†åˆ«æ’å…¥åˆ°q->key[i + 1]ã€q->recptr[i + 1]å’Œq->ptr[i + 1]ä¸­
         Insert(q, i, rx, ap);
         if(q->keynum < m) {
-            finished = true; // ²åÈëÍê³É
-        } else { // ·ÖÁÑ½áµã*q
+            finished = true; // æ’å…¥å®Œæˆ
+        } else { // åˆ†è£‚ç»“ç‚¹*q
             int s = (m + 1) >> 1;
             rx = q->node[s].recptr;
-            // ½«q->key[s + 1..m], q->ptr[s..m]ºÍq->recptr[s + 1..m]ÒÆÈëĞÂ½áµã*ap
+            // å°†q->key[s + 1..m], q->ptr[s..m]å’Œq->recptr[s + 1..m]ç§»å…¥æ–°ç»“ç‚¹*ap
             split(q, ap);
             q = q->parent;
             if(q) {
-                i = Search(q, rx->key); // ÔÚË«Ç×½áµã*qÖĞ²éÕÒrx->keyµÄ²åÈëÎ»ÖÃ
+                i = Search(q, rx->key); // åœ¨åŒäº²ç»“ç‚¹*qä¸­æŸ¥æ‰¾rx->keyçš„æ’å…¥ä½ç½®
             }
         }
     }
-    if(!finished) {// TÊÇ¿ÕÊ÷(²ÎÊıq³õÖµÎªNULL)»ò¸ù½áµãÒÑ·ÖÁÑÎª½áµã*qºÍ*ap
-        NewRoot(tree, rx, ap); // Éú³Éº¬ĞÅÏ¢(T, rx, ap)µÄĞÂµÄ¸ù½áµã*T£¬Ô­TºÍapÎª×ÓÊ÷Ö¸Õë
+    if(!finished) {// Tæ˜¯ç©ºæ ‘(å‚æ•°qåˆå€¼ä¸ºNULL)æˆ–æ ¹ç»“ç‚¹å·²åˆ†è£‚ä¸ºç»“ç‚¹*qå’Œ*ap
+        NewRoot(tree, rx, ap); // ç”Ÿæˆå«ä¿¡æ¯(T, rx, ap)çš„æ–°çš„æ ¹ç»“ç‚¹*Tï¼ŒåŸTå’Œapä¸ºå­æ ‘æŒ‡é’ˆ
     }
 }
  
 /*
-²Ù×÷½á¹û: °´¹Ø¼ü×ÖµÄË³Ğò¶ÔtreeµÄÃ¿¸ö½áµãµ÷ÓÃº¯ÊıVisit()Ò»´ÎÇÒÖÁ¶àÒ»´Î
+æ“ä½œç»“æœ: æŒ‰å…³é”®å­—çš„é¡ºåºå¯¹treeçš„æ¯ä¸ªç»“ç‚¹è°ƒç”¨å‡½æ•°Visit()ä¸€æ¬¡ä¸”è‡³å¤šä¸€æ¬¡
 */
 void TraverseSearchTree(SearchTree tree, void(*Visit)(BT, int)) {
-    if(tree) {// ·Ç¿ÕÊ÷
-        if(tree->node[0].ptr) {// ÓĞµÚ0¿Ã×ÓÊ÷
+    if(tree) {// éç©ºæ ‘
+        if(tree->node[0].ptr) {// æœ‰ç¬¬0æ£µå­æ ‘
             TraverseSearchTree(tree->node[0].ptr, Visit);
         }
         for(int i = 1; i <= tree->keynum; i++ ) {
             Visit(*tree, i);
-            if(tree->node[i].ptr) { // ÓĞµÚi¿Ã×ÓÊ÷
+            if(tree->node[i].ptr) { // æœ‰ç¬¬iæ£µå­æ ‘
                 TraverseSearchTree(tree->node[i].ptr, Visit);
             }
         }
@@ -221,8 +221,8 @@ int main() {
                    {37, "5"}, {50, "6"}, {61, "7"}, {90, "8"},
                    {100, "9"}, {70, "10"}, {3, "11"}, {30, "12"},
                    {26, "13"}, {85, "14"}, {3, "15"}, {7, "16"}};
-    SearchTree tree = NULL;//³õÊ¼»¯Ò»¿Ã¿ÕÊ÷
-    Result res;//´æ·Å½á¹û
+    SearchTree tree = NULL;//åˆå§‹åŒ–ä¸€æ£µç©ºæ ‘
+    Result res;//å­˜æ”¾ç»“æœ
  
     int i;
     for(i = 0; i < N; i++ ) {
@@ -232,15 +232,15 @@ int main() {
         }
     }
  
-    printf("°´¹Ø¼ü×ÖµÄË³Ğò±éÀúB-Ê÷:\n");
+    printf("æŒ‰å…³é”®å­—çš„é¡ºåºéå†B-æ ‘:\n");
     TraverseSearchTree(tree, print);
-    printf("\nÇëÊäÈë´ı²éÕÒ¼ÇÂ¼µÄ¹Ø¼ü×Ö: ");
+    printf("\nè¯·è¾“å…¥å¾…æŸ¥æ‰¾è®°å½•çš„å…³é”®å­—: ");
     while (scanf("%d", &i)) {
         res = SearchPosition(tree, i);
         if(res.tag) {
             print(*(res.pt), res.i);
         } else {
-            printf("Ã»ÕÒµ½\n");
+            printf("æ²¡æ‰¾åˆ°\n");
         }
         puts("");
     }
